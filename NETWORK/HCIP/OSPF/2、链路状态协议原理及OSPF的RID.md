@@ -166,3 +166,43 @@ TYPE-1 类型1的LSA链路状态通告：
 - 运行链路状态路由协议的路由器之间首先会建立邻居关系，然后彼此之间开始交互LSA（Link State
  Advertisement，链路状态通告）。
 ![img_6.png](img_6.png)
+
+## 链路状态路由协议-LSDB维护
+每台路由器都会产生LSA，路由器将接收到的LSA放入自己的LSDB（Link State DataBase，链路状态数
+据库）。路由器通过对LSDB中所存储的LSA进行解析，进而了解全网拓扑。
+![img_10.png](img_10.png)
+
+## 链路状态路由协议-SPF计算
+每台路由器基于LSDB，使用SPF（Shortest Path First，最短路径优先）算法进行计算。每台路由器都计算出一棵
+以自己为根的、无环的、拥有最短路径的“树”。有了这棵“树”，路由器就已经知道了到达所有网段的优选
+路径。
+![img_11.png](img_11.png)
+
+## 链路状态路由协议-路由表生成
+路由器将计算出来的优选路径，加载进自己的路由表（RoutingTable）。
+![img_12.png](img_12.png)
+
+![img_13.png](img_13.png)
+
+## OSPF概述
+- OSPF是IETF定义的一种基于链路状态的内部网关路由协议。目前针对IPv4协议使用的是OSPF
+ Version 2（RFC2328）；针对IPv6协议使用OSPFVersion3（RFC2740）。
+- OSPF有以下优点：
+1. [x] 基于SPF算法，以“累计链路开销”作为选路参考值
+2. [x] 采用组播形式收发部分协议报文
+3. [x] 支持区域划分
+4. [x] 支持对等价路由进行负载分担
+5. [x] 支持报文认证
+
+![img_14.png](img_14.png)
+
+## OSPF基础术语 - ROUTER ID
+- Router ID用于在自治系统中唯一标识一台运行OSPF的路由器，它是一个32位的无符号整数。
+- Router ID选举规则如下：  
+
+1. [x] 手动配置OSPF路由器的Router ID（**建议手动配置**）
+2. [x] 如果没有手动配置Router ID，则路由器使用Loopback接口中最大的IP地址作为Router ID
+3. [x] 如果没有配置Loopback接口，则路由器使用物理接口中最大的IP地址作为Router ID
+4. [x] 模拟器会使用第一个配置的ip地址作为RID，RID为了追求稳定性，一旦选举出就不可改变。除非重启设备或者重启OSPF进程，新RID才会生效
+![img_15.png](img_15.png)
+
