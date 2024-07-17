@@ -10,8 +10,8 @@
 点，作为**优秀的内部网关协议被广泛使用**。
 - 本课程主要介绍OSPF的基本概念、OSPF邻接关系的建立、以及OSPF的基本配置。
 
-![img.png](img.png)
-![img_1.png](img_1.png)
+![img.png](screenshoot/img.png)
+![img_1.png](screenshoot/img_1.png)
 
 ### 距离矢量协议--Routing Information Protocol 路由信息协议
 版本1 -- 广播 -- 路由更新  
@@ -21,7 +21,7 @@ RIP有类型路由 进行路由宣告 不需要携带掩码部分
 - 如果是B类路由只需要宣告前16位  
 - 如果是C类路由只需要宣告前24位  
   
- ![img_2.png](img_2.png)
+ ![img_2.png](screenshoot/img_2.png)
  ``` 
 AR1配置ip
 
@@ -164,4 +164,4 @@ Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
 
 ```
 - AR3抓包查看信息
-![img_3.png](img_3.png)
+![img_3.png](screenshoot/img_3.png)
