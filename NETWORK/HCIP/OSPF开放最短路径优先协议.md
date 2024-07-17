@@ -13,3 +13,64 @@
 ![img.png](img.png)
 ![img_1.png](img_1.png)
 
+### 距离矢量协议--Routing Information Protocol 路由信息协议
+版本1 -- 广播 -- 路由更新  
+版本2 -- 组播 -- 路由更新 -- 224.0.0.9  
+RIP有类型路由 进行路由宣告 不需要携带掩码部分  
+- 如果是A类路由只需要宣告前8位  
+- 如果是B类路由只需要宣告前16位  
+- 如果是C类路由只需要宣告前24位  
+  
+ ![img_2.png](img_2.png)
+ ``` 
+AR1配置ip
+
+The device is running!
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]sysn	
+[Huawei]sysname ar1
+[ar1]int g0/0/0
+[ar1-GigabitEthernet0/0/0]ip ad	
+[ar1-GigabitEthernet0/0/0]ip address 12.1.1.1 24
+Jul 17 2024 10:57:43-08:00 ar1 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
+ on the interface GigabitEthernet0/0/0 has entered the UP state. 
+[ar1-GigabitEthernet0/0/0]
+```
+
+```
+AR2 配置ip
+The device is running!
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]sysn	
+[Huawei]sysname ar2
+[ar2]int g0/0/0
+[ar2-GigabitEthernet0/0/0]ip add 12.1.1.2 24
+[ar2-GigabitEthernet0/0/0]
+Jul 17 2024 10:58:06-08:00 ar2 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
+ on the interface GigabitEthernet0/0/0 has entered the UP state. 
+[ar2-GigabitEthernet0/0/0]int g0/0/1
+[ar2-GigabitEthernet0/0/1]ip add 23.1.1.2 24
+[ar2-GigabitEthernet0/0/1]
+Jul 17 2024 10:58:29-08:00 ar2 %%01IFNET/4/LINK_STATE(l)[1]:The line protocol IP
+ on the interface GigabitEthernet0/0/1 has entered the UP state. 
+[ar2-GigabitEthernet0/0/1]
+```
+
+```
+AR3配置ip
+The device is running!
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]sysn	
+[Huawei]sysname ar3
+[ar3]int g0/0/0
+[ar3-GigabitEthernet0/0/0]ip add 23.1.1.3 24
+Jul 17 2024 10:58:46-08:00 ar3 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
+ on the interface GigabitEthernet0/0/0 has entered the UP state. 
+[ar3-GigabitEthernet0/0/0]
+```
