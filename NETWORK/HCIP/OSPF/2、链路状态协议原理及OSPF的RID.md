@@ -200,7 +200,7 @@ TYPE-1 类型1的LSA链路状态通告：
 - Router ID用于在自治系统中唯一标识一台运行OSPF的路由器，它是一个32位的无符号整数。
 - Router ID选举规则如下：  
 
-1. [x] 手动配置OSPF路由器的Router ID（**建议手动配置**）
+1. [x] 手动配置OSPF路由器的Router ID（**建议手动配置**）,手动配置最优先
 2. [x] 如果没有手动配置Router ID，则路由器使用Loopback接口中最大的IP地址作为Router ID
 3. [x] 如果没有配置Loopback接口，则路由器使用物理接口中最大的IP地址作为Router ID
 4. [x] 模拟器会使用第一个配置的ip地址作为RID，RID为了追求稳定性，一旦选举出就不可改变。除非重启设备或者重启OSPF进程，新RID才会生效

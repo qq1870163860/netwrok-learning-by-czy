@@ -1,0 +1,1 @@
+reset ospf process //重启ospf进程
