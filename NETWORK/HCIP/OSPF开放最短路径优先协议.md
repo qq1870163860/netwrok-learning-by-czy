@@ -32,11 +32,9 @@ Enter system view, return user view with Ctrl+Z.
 [Huawei]sysn	
 [Huawei]sysname ar1
 [ar1]int g0/0/0
-[ar1-GigabitEthernet0/0/0]ip ad	
 [ar1-GigabitEthernet0/0/0]ip address 12.1.1.1 24
 Jul 17 2024 10:57:43-08:00 ar1 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
  on the interface GigabitEthernet0/0/0 has entered the UP state. 
-[ar1-GigabitEthernet0/0/0]
 ```
 
 ```
@@ -49,28 +47,121 @@ Enter system view, return user view with Ctrl+Z.
 [Huawei]sysname ar2
 [ar2]int g0/0/0
 [ar2-GigabitEthernet0/0/0]ip add 12.1.1.2 24
-[ar2-GigabitEthernet0/0/0]
 Jul 17 2024 10:58:06-08:00 ar2 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
  on the interface GigabitEthernet0/0/0 has entered the UP state. 
 [ar2-GigabitEthernet0/0/0]int g0/0/1
 [ar2-GigabitEthernet0/0/1]ip add 23.1.1.2 24
-[ar2-GigabitEthernet0/0/1]
 Jul 17 2024 10:58:29-08:00 ar2 %%01IFNET/4/LINK_STATE(l)[1]:The line protocol IP
  on the interface GigabitEthernet0/0/1 has entered the UP state. 
-[ar2-GigabitEthernet0/0/1]
 ```
 
 ```
 AR3配置ip
 The device is running!
-
 <Huawei>sys
 Enter system view, return user view with Ctrl+Z.
-[Huawei]sysn	
 [Huawei]sysname ar3
 [ar3]int g0/0/0
 [ar3-GigabitEthernet0/0/0]ip add 23.1.1.3 24
 Jul 17 2024 10:58:46-08:00 ar3 %%01IFNET/4/LINK_STATE(l)[0]:The line protocol IP
  on the interface GigabitEthernet0/0/0 has entered the UP state. 
 [ar3-GigabitEthernet0/0/0]
+[ar3]int LoopBack 0
+[ar3-LoopBack0]ip address 3.3.3.3 32
 ```
+- 配置RIP
+```
+AR1
+
+[ar1]rip
+[ar1-rip-1]version 2
+[ar1-rip-1]network 12.0.0.0
+[ar1-rip-1]di th
+[V200R003C00]
+#
+rip 1
+ version 2
+ network 12.0.0.0
+#
+return
+```
+```
+AR2
+
+[ar2]rip
+[ar2-rip-1]version 2
+[ar2-rip-1]network 23.0.0.0
+[ar2-rip-1]network 12.0.0.0
+[ar2-rip-1]di th
+[V200R003C00]
+#
+rip 1
+ version 2
+ network 23.0.0.0
+ network 12.0.0.0
+#
+return
+```
+```
+AR3
+
+[ar3]rip
+[ar3-rip-1]ver	
+[ar3-rip-1]version 2
+[ar3-rip-1]network 3.0.0.0
+[ar3-rip-1]network 23.0.0.0
+[ar3-rip-1]di th
+[V200R003C00]
+#
+rip 1
+ version 2
+ network 3.0.0.0
+ network 23.0.0.0
+#
+return
+
+```
+- AR1 查看路由表及ping AR3 环回地址 3.3.3.3
+```
+
+[ar1]dis ip routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 9        Routes : 9        
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+        3.3.3.3/32  RIP     100  2           D   12.1.1.2        GigabitEthernet
+0/0/0
+       12.1.1.0/24  Direct  0    0           D   12.1.1.1        GigabitEthernet
+0/0/0
+       12.1.1.1/32  Direct  0    0           D   127.0.0.1       GigabitEthernet
+0/0/0
+     12.1.1.255/32  Direct  0    0           D   127.0.0.1       GigabitEthernet
+0/0/0
+       23.1.1.0/24  RIP     100  1           D   12.1.1.2        GigabitEthernet
+0/0/0
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+127.255.255.255/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+255.255.255.255/32  Direct  0    0           D   127.0.0.1       InLoopBack0
+
+[ar1]ping 3.3.3.3
+  PING 3.3.3.3: 56  data bytes, press CTRL_C to break
+    Request time out
+    Reply from 3.3.3.3: bytes=56 Sequence=2 ttl=254 time=20 ms
+    Reply from 3.3.3.3: bytes=56 Sequence=3 ttl=254 time=20 ms
+    Reply from 3.3.3.3: bytes=56 Sequence=4 ttl=254 time=40 ms
+    Reply from 3.3.3.3: bytes=56 Sequence=5 ttl=254 time=30 ms
+
+  --- 3.3.3.3 ping statistics ---
+    5 packet(s) transmitted
+    4 packet(s) received
+    20.00% packet loss
+    round-trip min/avg/max = 20/27/40 ms
+
+
+```
+- AR3抓包查看信息
+![img_3.png](img_3.png)
