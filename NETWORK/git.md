@@ -1,4 +1,6 @@
-git add /file
-git commit -m /file
-git fetch
-git merge
+git add /file  
+git commit -m /file  
+git push  
+
+git fetch  
+git merge  
