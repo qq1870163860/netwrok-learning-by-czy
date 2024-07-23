@@ -59,6 +59,35 @@ OSPF衡量路由的‘优劣’
 3、OSPF的路由表  ➡️每台路由器根据LSDB，以自己为根计算所有的OSPF路由，按需增加    
 `OSPF的路由表 ≠ 路由表，直连不会计算，右边显示的direct而非OSPF`  
 如果邻居建立正常，但是路由不正常，需要去查看各个路由器LSDB的情况
+* OSPF的报文
+一、hello 建立和维护OSPF的邻居关系  
+默认10s一次发送
+二、DBD/DD  database description 数据库描述
+![img_22.png](img_22.png)
+三、Link state request 链路状态请求 根据DBD目录去请求详细的LSA（路由）  
+四、Link state update 链路状态更新 发送具体的LSA链路状态通告  
+五、Link state ack 链路状态确认 对收到的LSU 链路状态更新进行确认
+![img_23.png](img_23.png)
+* OSPF的邻居关系
+* OSPF的邻接关系  
+邻居是邻接的前提，但是邻居不一定是邻接
+![img_24.png](img_24.png)
+* OSPF的邻居状态机  
+一、down 关闭  
+OSPF刚启动，没有收到领居的hello报文  
+
+二、init 初始化  
+收到邻居的hello报文后，但是不包含自己的RID  
+
+三、2-way 双向确认  
+收到了邻居的hello报文，包含自己的RID  //两边同时进入2-way状态，邻居关系正式建立
+
+四、exstart 预启动  
+
+五、exchange 预交换  
+六、loading 加载  
+七、full 邻居（领接）  
+八、attept 尝试启动  
 
 
 
