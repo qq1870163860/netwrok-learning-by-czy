@@ -47,4 +47,19 @@ OSPF衡量路由的‘优劣’
 * ![img_20.png](img_20.png)
 环回接口的度量值始终为0（华为）  
 ![img_19.png](img_19.png)
+![img_21.png](img_21.png)
+修改权重方法：在入接口修改cost  
+``ospf cost *``  
+为什么要调整OSPF COST？ 为了选路
+* OSPF三大表项  
+1、OSPF邻居表  
+没有邻居，没有路由  -- 排错第一步  
+2、OSPF link state database 链路状态数据库  
+同一区域的LSDB，所有路由器完全一致，不同区域可能不一样  
+3、OSPF的路由表  ➡️每台路由器根据LSDB，以自己为根计算所有的OSPF路由，按需增加    
+`OSPF的路由表 ≠ 路由表，直连不会计算，右边显示的direct而非OSPF`  
+如果邻居建立正常，但是路由不正常，需要去查看各个路由器LSDB的情况
+
+
+
 
