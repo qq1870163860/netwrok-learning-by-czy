@@ -85,8 +85,11 @@ OSPF刚启动，没有收到领居的hello报文
 四、exstart 预启动  
 
 五、exchange 预交换  
+
 六、loading 加载  
+
 七、full 邻居（领接）  
+
 八、attept 尝试启动  
 
 
